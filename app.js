@@ -1,13 +1,19 @@
 let $ = document.querySelector.bind(document);
 let $$ = document.querySelectorAll.bind(document);
 
-const word = WORDS.random().toUpperCase();
+let word = WORDS.random().toUpperCase();
 const rows = 6;
 const columns = 5;
 const keyboardRows = ["QWERTZUIOP", "ASDFGHJKL", "<YXCVBNM⏎"];
 
 let currentRow = 0;
 let currentColumn = 0;
+
+const handleResult = (success) => {
+  $("#keyboard").classList.add("invisible");
+  $("#result").classList.remove("invisible");
+  $("#result h2").innerHTML = success ? "Congratulations!" : "Failure :(";
+};
 
 const getElement = (row, column) => {
   let r = $$("#table div")[row];
@@ -37,7 +43,9 @@ const handleAction = (char) => {
     });
 
     if (insertedWord == word) {
-      $("#keyboard").innerHTML = "Success";
+      handleResult(true);
+    } else if (rows - 1 == currentRow) {
+      handleResult(false);
     } else {
       currentRow += 1;
       currentColumn = 0;
@@ -79,6 +87,17 @@ const renderKeyboard = () => {
   });
 };
 
+const retry = () => {
+  currentRow = 0;
+  currentColumn = 0;
+  word = WORDS.random().toUpperCase();
+  $("#keyboard").classList.remove("invisible");
+  $("#result").classList.add("invisible");
+  $("#table").innerHTML = "";
+  renderTable();
+};
+
 renderTable();
 renderKeyboard();
-console.log(word);
+
+$("#result button").addEventListener("click", retry);
