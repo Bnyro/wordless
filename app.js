@@ -4,15 +4,30 @@ let $$ = document.querySelectorAll.bind(document);
 const word = WORDS.random();
 const rows = 6;
 const columns = 5;
-const keyboardRows = ["QWERTZUIOP", "ASDFGHJKL", "YXCVBNM"];
+const keyboardRows = ["QWERTZUIOP", "ASDFGHJKL", "<YXCVBNM⏎"];
 
 let currentRow = 0;
 let currentColumn = 0;
 
-const appendChar = (char) => {
-  let row = $$("#table div")[currentRow];
-  let column = row.querySelectorAll("span")[currentColumn];
-  column.innerHTML = char;
+const getElement = (row, column) => {
+  let r = $$("#table div")[row];
+  return r.querySelectorAll("span")[column];
+};
+
+const handleAction = (char) => {
+  if (char == "<") {
+    currentColumn -= 1;
+    getElement(currentRow, currentColumn).innerHTML = "";
+  } else {
+  }
+};
+
+const handleChar = (char) => {
+  if (!isLetter(char)) {
+    handleAction(char);
+    return;
+  }
+  getElement(currentRow, currentColumn).innerHTML = char;
   currentColumn += 1;
 };
 
@@ -34,7 +49,7 @@ const renderKeyboard = () => {
     [...row].forEach((char) => {
       const span = document.createElement("span");
       span.innerHTML = char;
-      span.addEventListener("click", () => appendChar(char));
+      span.addEventListener("click", () => handleChar(char));
       div.appendChild(span);
     });
   });
