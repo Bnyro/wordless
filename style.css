@@ -1,0 +1,75 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --fg: #c5c8c6;
+  --bg: #1d1f21;
+  --surface: #373b41;
+  --accent: #b294bb;
+  --r: 0.5rem;
+}
+
+html {
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  background-color: var(--bg);
+  color: var(--fg);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 95vh;
+}
+
+#table {
+  display: flex;
+  flex-direction: column;
+}
+
+#table div {
+  display: flex;
+}
+
+#table span, #keyboard span {
+  border-radius: var(--r);
+  background-color: var(--surface);
+  color: var(--accent);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+}
+
+#table span {
+  height: 5rem;
+  width: 5rem;
+  margin: 0.5rem;
+}
+
+#keyboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+#keyboard div {
+  display: flex;
+}
+
+#keyboard span {
+  height: 4rem;
+  width: 4rem;
+  margin: 0.3rem;
+  cursor: pointer;
+}
+
+#keyboard span:hover {
+  filter: brightness(1.2);
+}
