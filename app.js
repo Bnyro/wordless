@@ -1,7 +1,7 @@
 let $ = document.querySelector.bind(document);
 let $$ = document.querySelectorAll.bind(document);
 
-const word = WORDS.random();
+const word = WORDS.random().toUpperCase();
 const rows = 6;
 const columns = 5;
 const keyboardRows = ["QWERTZUIOP", "ASDFGHJKL", "<YXCVBNM⏎"];
@@ -16,9 +16,32 @@ const getElement = (row, column) => {
 
 const handleAction = (char) => {
   if (char == "<") {
+    if (currentColumn == 0) return;
     currentColumn -= 1;
     getElement(currentRow, currentColumn).innerHTML = "";
   } else {
+    let curRow = $$("#table div")[currentRow];
+    let charEls = [...curRow.querySelectorAll("span")];
+    let insertedWord = charEls.map((el) => el.innerHTML).join("");
+    if (insertedWord.length != columns) return;
+
+    charEls.forEach((span, index) => {
+      const char = span.innerHTML;
+      const cl =
+        char == word[index]
+          ? "correct"
+          : word.includes(char)
+          ? "exists"
+          : "false";
+      span.classList.add(cl);
+    });
+
+    if (insertedWord == word) {
+      $("#keyboard").innerHTML = "Success";
+    } else {
+      currentRow += 1;
+      currentColumn = 0;
+    }
   }
 };
 
@@ -27,6 +50,7 @@ const handleChar = (char) => {
     handleAction(char);
     return;
   }
+  if (currentRow >= rows || currentColumn >= columns) return;
   getElement(currentRow, currentColumn).innerHTML = char;
   currentColumn += 1;
 };
@@ -57,3 +81,4 @@ const renderKeyboard = () => {
 
 renderTable();
 renderKeyboard();
+console.log(word);
