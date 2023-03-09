@@ -12,7 +12,10 @@ let currentColumn = 0;
 const handleResult = (success) => {
   $("#keyboard").classList.add("invisible");
   $("#result").classList.remove("invisible");
-  $("#result h2").innerHTML = success ? "Congratulations!" : "Failure :(";
+  $("#result h2").innerHTML = success
+    ? "Congratulations!"
+    : `Correct word: ${word}`;
+  $("#result h2").style.color = success ? "var(--green)" : "var(--red)";
 };
 
 const getElement = (row, column) => {
